@@ -16,3 +16,34 @@ class Suprematism(QWidget):
         self.fig = 0
         self.setMouseTracking(True)
 
+    def paintEvent(self, event):
+        if self.do_paint:
+            qp = QPainter()
+            qp.begin(self)
+            self.draw_flag(qp)
+            qp.end()
+        self.do_paint = False
+
+    def paint(self):
+        self.do_paint = True
+        self.update()
+
+    def draw_flag(self, qp):
+        size = randint(20, 100)
+        self.x, self.y = randint(size, 400 - size), randint(size, 300 - size)
+        color = QColor(255, 255, randint(0,10))
+        qp.setBrush(color)
+        rect = QPointF(self.x, self.y)
+        qp.drawEllipse(rect, size, size)
+
+
+    def run(self):
+        self.paint()
+        # Имя элемента совпадает с objectName в QTDesigner
+
+
+if __name__ == '__main__':
+    app = QApplication(sys.argv)
+    ex = Suprematism()
+    ex.show()
+    sys.exit(app.exec())
